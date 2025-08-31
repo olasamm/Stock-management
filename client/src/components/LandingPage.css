@@ -1,0 +1,75 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.landing__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+.landing__brand {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.landing__nav a {
+  margin-left: 1rem;
+}
+
+.landing__hero {
+  text-align: center;
+  padding: 6rem 1rem 4rem;
+}
+
+.landing__cta {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid #8884;
+}
+
+.btn--primary {
+  background: #646cff;
+  color: white;
+  border-color: #646cff;
+}
+
+.landing__features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature {
+  padding: 1.25rem;
+  border: 1px solid #8883;
+  border-radius: 0.75rem;
+}
+
+.landing__faq {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.landing__footer {
+  margin-top: auto;
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid #8883;
+}
+
