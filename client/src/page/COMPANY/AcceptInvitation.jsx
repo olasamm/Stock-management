@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaExclamationTriangle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { API_ENDPOINTS } from '../../config/config';
 import './AcceptInvitation.css';
 
 const AcceptInvitation = () => {
@@ -23,7 +24,7 @@ const AcceptInvitation = () => {
 
   const validateToken = async () => {
     try {
-      const response = await fetch(`http://localhost:1002/validate-invitation/${token}`);
+      const response = await fetch(`${API_ENDPOINTS.VALIDATE_INVITATION}/${token}`);
       if (response.ok) {
         const data = await response.json();
         setInvitationData(data.invitation);
@@ -65,7 +66,7 @@ const AcceptInvitation = () => {
     setMessage({ text: '', type: '' });
 
     try {
-      const response = await fetch('http://localhost:1002/accept-invitation', {
+      const response = await fetch(API_ENDPOINTS.ACCEPT_INVITATION, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

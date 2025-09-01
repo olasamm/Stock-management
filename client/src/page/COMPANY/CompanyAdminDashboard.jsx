@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaBoxes, FaUsers, FaChartLine, FaPlus, FaSearch, FaFilter, FaSignOutAlt, FaUser, FaBell, FaCog, FaUpload, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/config';
 import './CompanyAdminDashboard.css';
 
 const CompanyAdminDashboard = () => {
@@ -65,7 +66,7 @@ const CompanyAdminDashboard = () => {
       if (company?.id) {
         try {
           // Fetch stock items
-          const stockResponse = await fetch(`http://localhost:1002/stock-items/${company.id}`);
+          const stockResponse = await fetch(`${API_ENDPOINTS.STOCK_ITEMS}/${company.id}`);
           if (stockResponse.ok) {
             const stockData = await stockResponse.json();
             setStockItems(stockData.stockItems);
@@ -80,7 +81,7 @@ const CompanyAdminDashboard = () => {
 
         try {
           // Fetch categories
-          const categoryResponse = await fetch(`http://localhost:1002/categories/${company.id}`);
+          const categoryResponse = await fetch(`${API_ENDPOINTS.CATEGORIES}/${company.id}`);
           if (categoryResponse.ok) {
             const categoryData = await categoryResponse.json();
             setCategories(categoryData.categories);
@@ -95,7 +96,7 @@ const CompanyAdminDashboard = () => {
 
         try {
           // Fetch team members
-          const teamResponse = await fetch(`http://localhost:1002/team-members/${company.id}`);
+          const teamResponse = await fetch(`${API_ENDPOINTS.TEAM_MEMBERS}/${company.id}`);
           if (teamResponse.ok) {
             const teamData = await teamResponse.json();
             setTeamMembers(teamData.teamMembers);
@@ -138,7 +139,7 @@ const CompanyAdminDashboard = () => {
 
   const handleDeleteProduct = async (itemId) => {
     try {
-      const response = await fetch(`http://localhost:1002/stock-items/${itemId}`, {
+      const response = await fetch(`${API_ENDPOINTS.STOCK_ITEMS}/${itemId}`, {
         method: 'DELETE',
       });
 
@@ -161,7 +162,7 @@ const CompanyAdminDashboard = () => {
 
   const handleUpdateProduct = async (updatedProduct) => {
     try {
-      const response = await fetch(`http://localhost:1002/stock-items/${updatedProduct.id}`, {
+      const response = await fetch(`${API_ENDPOINTS.STOCK_ITEMS}/${updatedProduct.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +238,7 @@ const CompanyAdminDashboard = () => {
 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      const response = await fetch(`http://localhost:1002/categories/${categoryId}`, {
+      const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${categoryId}`, {
         method: 'DELETE',
       });
 
@@ -265,7 +266,7 @@ const CompanyAdminDashboard = () => {
 
   const handleUpdateCategory = async (updatedCategory) => {
     try {
-      const response = await fetch(`http://localhost:1002/categories/${updatedCategory.id}`, {
+      const response = await fetch(`${API_ENDPOINTS.CATEGORIES}/${updatedCategory.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -296,7 +297,7 @@ const CompanyAdminDashboard = () => {
 
   const handleAddCategory = async (newCategory) => {
     try {
-      const response = await fetch('http://localhost:1002/categories', {
+      const response = await fetch(API_ENDPOINTS.CATEGORIES, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -328,7 +329,7 @@ const CompanyAdminDashboard = () => {
   // Add new product function
   const handleAddProduct = async (product) => {
     try {
-      const response = await fetch('http://localhost:1002/stock-items', {
+      const response = await fetch(API_ENDPOINTS.STOCK_ITEMS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -360,7 +361,7 @@ const CompanyAdminDashboard = () => {
   // Real API function for inviting team members
   const handleInviteTeamMember = async (memberData) => {
     try {
-      const response = await fetch('http://localhost:1002/invite-team-member', {
+      const response = await fetch(API_ENDPOINTS.INVITE_TEAM_MEMBER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
