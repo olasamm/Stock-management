@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaBoxes, FaEye, FaEyeSlash, FaGoogle, FaGithub } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/config';
 import './Signup.css';
 
 const Signup = () => {
@@ -60,8 +61,7 @@ const Signup = () => {
     }
 
     try {
-              const url = "http://localhost:1002/signup";
-      const response = await axios.post(url, formData);
+      const response = await axios.post(API_ENDPOINTS.SIGNUP, formData);
       
       if (response.status === 201) {
         setMessage("User Created Successfully");

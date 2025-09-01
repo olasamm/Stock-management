@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaBuilding, FaUser, FaEnvelope, FaPhone, FaGlobe, FaShieldAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/config';
 import './CompanyRegistration.css';
 
 const CompanyRegistration = () => {
@@ -73,8 +74,7 @@ const CompanyRegistration = () => {
     setIsLoading(true);
 
     try {
-      const url = "http://localhost:1002/company/register";
-      const response = await axios.post(url, formData);
+      const response = await axios.post(API_ENDPOINTS.COMPANY_REGISTER, formData);
       
       if (response.status === 201) {
         setMessage("Company registered successfully! Redirecting to login...");

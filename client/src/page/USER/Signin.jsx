@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaBoxes, FaEye, FaEyeSlash, FaGoogle, FaGithub } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/config';
 import './Signin.css';
 
 const Signin = () => {
@@ -37,9 +38,8 @@ const Signin = () => {
 
     setIsLoading(true);
     
-    try {
-              const url = "http://localhost:1002/signin";
-      const response = await axios.post(url, formData);
+        try {
+      const response = await axios.post(API_ENDPOINTS.SIGNIN, formData);
       
       if (response.status === 200) {
         setMessage("Login successful!");
