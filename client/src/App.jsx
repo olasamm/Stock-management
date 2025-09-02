@@ -18,6 +18,7 @@ import AdminDashboard from './page/ADMIN/AdminDashboard'
 
 function App() {
   return (
+    
     <Routes>
       <Route path='/' element={<LandingPage />} />
       <Route path='/signin' element={<Signin />} />
@@ -31,7 +32,9 @@ function App() {
       <Route path='/company-admin-dashboard' element={<CompanyAdminDashboard />} />
       <Route path='/accept-invitation/:token' element={<AcceptInvitation />} />
       <Route path='/team-login' element={<TeamLogin />} />
+
     </Routes>
+    
   )
 }
 
