@@ -11,6 +11,8 @@ import AdminSignup from './page/ADMIN/AdminSignup'
 import CompanyRegistration from './page/COMPANY/CompanyRegistration'
 import CompanyLogin from './page/COMPANY/CompanyLogin'
 import CompanyAdminDashboard from './page/COMPANY/CompanyAdminDashboard'
+import AcceptInvitation from './page/COMPANY/AcceptInvitation'
+import TeamLogin from './page/COMPANY/TeamLogin'
 import Dashboard from './page/USER/Dashboard'
 import AdminDashboard from './page/ADMIN/AdminDashboard'
 
@@ -27,6 +29,8 @@ function App() {
       <Route path='/user-dashboard' element={<Dashboard />} />
       <Route path='/admin-dashboard' element={<AdminDashboard />} />
       <Route path='/company-admin-dashboard' element={<CompanyAdminDashboard />} />
+      <Route path='/accept-invitation/:token' element={<AcceptInvitation />} />
+      <Route path='/team-login' element={<TeamLogin />} />
     </Routes>
   )
 }

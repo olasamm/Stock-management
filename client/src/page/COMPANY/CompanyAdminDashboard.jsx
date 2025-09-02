@@ -358,35 +358,53 @@ const CompanyAdminDashboard = () => {
     }
   };
 
-  // Real API function for inviting team members
+  // Real API function for inviting or directly creating team members
   const handleInviteTeamMember = async (memberData) => {
     try {
-      const response = await fetch(API_ENDPOINTS.INVITE_TEAM_MEMBER, {
+      const isDirectCreate = !!memberData.createWithPassword;
+      const endpoint = isDirectCreate ? API_ENDPOINTS.CREATE_TEAM_MEMBER : API_ENDPOINTS.INVITE_TEAM_MEMBER;
+      const payload = {
+        firstName: memberData.firstName,
+        lastName: memberData.lastName,
+        email: memberData.email,
+        companyId: company.id,
+      };
+      if (isDirectCreate) {
+        payload.password = memberData.password;
+      }
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...memberData,
-          companyId: company.id
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
+      const raw = await response.text();
+      let data;
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch (parseErr) {
+        data = { message: raw };
+      }
 
       if (response.ok) {
         // Add the new member to the list
         setTeamMembers([...teamMembers, data.teamMember]);
         setShowInviteMemberModal(false);
-        setSuccessMessage(`Invitation sent to ${memberData.firstName} ${memberData.lastName}`);
+        setSuccessMessage(isDirectCreate
+          ? `Team member ${memberData.firstName} ${memberData.lastName} created`
+          : `Invitation sent to ${memberData.firstName} ${memberData.lastName}`
+        );
         setTimeout(() => setSuccessMessage(''), 3000);
       } else {
-        setSuccessMessage(`Error: ${data.message}`);
+        setSuccessMessage(`Error (${response.status}): ${data.message || 'Request failed'}`);
         setTimeout(() => setSuccessMessage(''), 5000);
       }
     } catch (error) {
       console.error('Error inviting team member:', error);
-      setSuccessMessage('Error: Failed to send invitation. Please try again.');
+      setSuccessMessage(`Error: ${error.message || 'Failed to send invitation. Please try again.'}`);
       setTimeout(() => setSuccessMessage(''), 5000);
     }
   };
@@ -1008,15 +1026,21 @@ const InviteMemberModal = ({ onClose, onInvite }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    password: '',
+    createWithPassword: false
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onInvite({
-      ...formData,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.createWithPassword ? formData.password : undefined,
+      createWithPassword: formData.createWithPassword,
       role: 'Sales Person',
-      status: 'Pending',
+      status: formData.createWithPassword ? 'Active' : 'Pending',
       lastLogin: 'Never'
     });
   };
@@ -1058,9 +1082,31 @@ const InviteMemberModal = ({ onClose, onInvite }) => {
               required
             />
           </div>
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.createWithPassword}
+                onChange={(e) => setFormData({...formData, createWithPassword: e.target.checked})}
+              />
+              {' '}Create with password (don’t send invitation email)
+            </label>
+          </div>
+          {formData.createWithPassword && (
+            <div className="form-group">
+              <label>Temporary Password</label>
+              <input
+                type="text"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                minLength={6}
+                required
+              />
+            </div>
+          )}
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="btn-secondary">Cancel</button>
-            <button type="submit" className="btn-primary">Send Invitation</button>
+            <button type="submit" className="btn-primary">{formData.createWithPassword ? 'Create Member' : 'Send Invitation'}</button>
           </div>
         </form>
       </div>

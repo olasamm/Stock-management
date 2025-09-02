@@ -1,5 +1,5 @@
 // API Configuration
-export const API_BASE_URL = 'https://stock-management-6tcp.vercel.app';
+export const API_BASE_URL = 'https://stock-management-0ywb.onrender.com';
 
 // API Endpoints
 export const API_ENDPOINTS = {
@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
   // Team endpoints
   TEAM_LOGIN: `${API_BASE_URL}/team-login`,
   INVITE_TEAM_MEMBER: `${API_BASE_URL}/invite-team-member`,
+  CREATE_TEAM_MEMBER: `${API_BASE_URL}/create-team-member`,
   ACCEPT_INVITATION: `${API_BASE_URL}/accept-invitation`,
   VALIDATE_INVITATION: `${API_BASE_URL}/validate-invitation`,
   

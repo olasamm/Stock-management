@@ -764,6 +764,58 @@ app.post("/invite-team-member", async (req, res) => {
     }
 });
 
+// Create team member directly with admin-provided password (no email invite)
+app.post("/create-team-member", async (req, res) => {
+    try {
+        const { firstName, lastName, email, companyId, password } = req.body;
+
+        if (!firstName || !lastName || !email || !companyId || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ message: "Company not found" });
+        }
+
+        const existingMember = await TeamMember.findOne({ email, companyId });
+        if (existingMember) {
+            return res.status(400).json({ message: "Team member with this email already exists" });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: "Password must be at least 6 characters long" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        const teamMember = new TeamMember({
+            firstName,
+            lastName,
+            email,
+            companyId,
+            password: hashedPassword,
+            status: 'Active',
+        });
+
+        await teamMember.save();
+
+        return res.status(201).json({
+            message: "Team member created successfully",
+            teamMember: {
+                id: teamMember._id,
+                firstName: teamMember.firstName,
+                lastName: teamMember.lastName,
+                email: teamMember.email,
+                status: teamMember.status,
+            }
+        });
+    } catch (error) {
+        console.error("Create team member error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 // Accept team invitation
 app.post("/accept-invitation", async (req, res) => {
     try {

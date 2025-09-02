@@ -27,7 +27,7 @@ const CompanyLogin = () => {
     setMessage({ text: '', type: '' });
 
     try {
-              const response = await fetch('http://localhost:1002/company-login', {
+              const response = await fetch('https://stock-management-0ywb.onrender.com/company-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

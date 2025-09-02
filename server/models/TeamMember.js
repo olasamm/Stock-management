@@ -34,11 +34,13 @@ const teamMemberSchema = new mongoose.Schema({
     },
     invitationToken: {
         type: String,
-        required: true
+        required: false,
+        default: null
     },
     invitationExpires: {
         type: Date,
-        required: true
+        required: false,
+        default: null
     },
     acceptedAt: {
         type: Date
